@@ -21,12 +21,32 @@ public class WordSearch {
 		// Implement the rest of this method starting from here!
 
 		// this is for debugging, just to make sure it's reading the right files
-        for (File file : files) {
-            System.out.println(file.getName());
+    for (File file : files) {
+        System.out.println(file.getName());
+    }
+
+    Map<String, Set<String>> map = new HashMap<>();
+    for (File f : files){
+      try{
+        Scanner scanner = new Scanner(f);
+        while (scanner.hasNextLine()){
+          String line = scanner.nextLine();
+          String[] words = line.split(" ");
+          for (String w : words){
+            String k = w.toLowerCase();
+            String fileName = f.getName();
+            if (!map.containsKey(k)) {
+              map.put(w.toLowerCase(), new HashSet<>());
+            }
+            map.get(k).add(fileName);
+          }
         }
-		
-		return Collections.EMPTY_MAP; // change this as necessary
-		
+      } catch (FileNotFoundException e) {
+        System.out.println("404");
+        throw new RuntimeException(e);
+      }
+    }
+		return map; // change this as necessary
 	}
 	
 	public static List<String> search(String[] terms, Map<String, Set<String>> map) {
@@ -37,7 +57,7 @@ public class WordSearch {
 	
 	public static void main(String[] args) {
 		Map<String, Set<String>> map = buildMap(args[0]);
-		//System.out.println(map); 					// for debugging purposes
+		System.out.println(map); 					// for debugging purposes
 		
 		System.out.print("Enter a term to search for: ");
 		
