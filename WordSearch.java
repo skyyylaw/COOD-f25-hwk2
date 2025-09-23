@@ -3,6 +3,17 @@ import java.util.*;
 
 /*
  * Implements a text search engine for a collection of documents in the same directory.
+ *
+ * In buildMap, I used a HashMap<String, Set<String>> because out goal is to associate each unique word
+ * that appears across all files to the files it appears in, which is a singular string key to a set of one or multiple
+ * string filenames.
+ *
+ * In search, I first used a HashMap<String, Integer>  to map each file to the number of terms from the args
+ * that it contains. Then I iterated through the hashmap to reorganize data into a TreeMap<Integer, TreeSet<String>>,
+ * where the key is a word count group that each file that contains the same number of terms from the args would
+ * fall in. Using a treeset means the keys are sorted, and using a treeset for filenames mean the filenames would be
+ * sorted as well. This is useful because we want to rank the filenames first by count and then by filenames.
+ *
  */
 
 public class WordSearch {
@@ -25,7 +36,7 @@ public class WordSearch {
         System.out.println(file.getName());
     }
 
-    Map<String, Set<String>> map = new HashMap<>();
+    HashMap<String, Set<String>> map = new HashMap<>();
     for (File f : files){
       try{
         Scanner scanner = new Scanner(f);
@@ -53,7 +64,7 @@ public class WordSearch {
 		// Implement this method starting from here!
     List<String> res = new ArrayList<>();
     // count how many of the search terms each file contains
-    Map<String, Integer> fileCount = new HashMap<>();
+    HashMap<String, Integer> fileCount = new HashMap<>();
     // reverse the above and group filesnames into corresponding counts, while keep filenames sorted
     TreeMap<Integer, TreeSet<String>>  rank = new TreeMap<>();
 
