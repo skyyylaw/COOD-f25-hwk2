@@ -51,8 +51,34 @@ public class WordSearch {
 	
 	public static List<String> search(String[] terms, Map<String, Set<String>> map) {
 		// Implement this method starting from here!
+    List<String> res = new ArrayList<>();
+    Map<String, Integer> fileCount = new HashMap<>();
+    TreeMap<Integer, TreeSet<String>>  rank = new TreeMap<>();
+    for (String w : terms) {
+      if (map.containsKey(w)){
+        for (String fileName : map.get(w)) {
+          if (!fileCount.containsKey(fileName)) {
+            fileCount.put(fileName, 0);
+          }
+          fileCount.put(fileName, fileCount.get(fileName) + 1);
+        }
+      }
+    }
 
-		return Collections.EMPTY_LIST; // change this as necessary
+    for (String fileName : fileCount.keySet()) {
+      int count = fileCount.get(fileName);
+      if (!rank.containsKey(count)) {
+        rank.put(count, new TreeSet<>());
+      }
+      rank.get(count).add(fileName);
+    }
+
+    for (int count : rank.descendingKeySet()) {
+      for (String fileName : rank.get(count)) {
+        res.add(fileName);
+      }
+    }
+		return res; // change this as necessary
 	}
 	
 	public static void main(String[] args) {
