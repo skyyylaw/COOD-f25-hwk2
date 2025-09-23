@@ -52,8 +52,12 @@ public class WordSearch {
 	public static List<String> search(String[] terms, Map<String, Set<String>> map) {
 		// Implement this method starting from here!
     List<String> res = new ArrayList<>();
+    // count how many of the search terms each file contains
     Map<String, Integer> fileCount = new HashMap<>();
+    // reverse the above and group filesnames into corresponding counts, while keep filenames sorted
     TreeMap<Integer, TreeSet<String>>  rank = new TreeMap<>();
+
+    // count file contains
     for (String w : terms) {
       if (map.containsKey(w)){
         for (String fileName : map.get(w)) {
@@ -65,6 +69,7 @@ public class WordSearch {
       }
     }
 
+    // populate rank
     for (String fileName : fileCount.keySet()) {
       int count = fileCount.get(fileName);
       if (!rank.containsKey(count)) {
@@ -73,6 +78,7 @@ public class WordSearch {
       rank.get(count).add(fileName);
     }
 
+    // generate results
     for (int count : rank.descendingKeySet()) {
       for (String fileName : rank.get(count)) {
         res.add(fileName);
