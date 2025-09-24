@@ -20,7 +20,37 @@ public class Analyzer {
 		/*
 		 * Implement this method in Step 2
 		 */
-		return null;
+    if (sentences == null) {
+      return null;
+    }
+    HashMap<String, Integer> wordTotalScore = new HashMap<>();
+    HashMap<String, Integer> wordTotalCount = new HashMap<>();
+    HashMap<String, Double> wordAvgScore = new HashMap<>();
+    for (Sentence s : sentences) {
+      String line = s.getText();
+      int score = s.getScore();
+      if (score < -2 || score > 2 || line == null || line.length()==0 ) {
+        continue;
+      }
+      String[] words = line.split(" ");
+      for (String w : words) {
+        String lowerW = w.toLowerCase();
+        if (lowerW.charAt(0) < 'a' || lowerW.charAt(0) > 'z') {
+          // ignore this word since it does not start with a letter
+          continue;
+        }
+        if (!wordTotalScore.containsKey(lowerW)) {
+          wordTotalCount.put(lowerW, 1);
+          wordTotalScore.put(lowerW, score);
+          wordAvgScore.put(lowerW, (double) score);
+        } else {
+          wordTotalCount.put(lowerW, wordTotalCount.get(lowerW) + 1);
+          wordTotalScore.put(lowerW, wordTotalScore.get(lowerW) + score);
+          wordAvgScore.put(lowerW, (double) (wordTotalScore.get(lowerW) / wordTotalCount.get(lowerW)));
+        }
+      }
+    }
+		return wordAvgScore;
 	}
 	
 	/**
@@ -47,7 +77,15 @@ public class Analyzer {
      * Just use it for testing this class. It is not considered for grading.
      */
     public static void main(String[] args) {
-
+      Set<Sentence> sentences = new HashSet<>();
+      sentences.add(new Sentence(2, "I like dogs"));
+      sentences.add(new Sentence(5, "dogs dogs dogs dogs dogs dogs 'dogs ,dogs .dogs"));
+      sentences.add(new Sentence(-2, "I"));
+      Map<String, Double> scores = calculateWordScores(sentences);
+      assert (scores.get("dogs") == 1);
+      assert (scores.get("i") == 0);
+      assert (scores.get("like") == 2);
+      System.out.println("Tests Passed");
     }
 
 }
