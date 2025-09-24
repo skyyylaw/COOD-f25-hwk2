@@ -67,7 +67,26 @@ public class Analyzer {
 		/*
 		 * Implement this method in Step 3
 		 */
-		return 0;
+    if (wordScores == null || sentence == null || wordScores.size() == 0 || sentence.length() == 0) {
+      return 0;
+    }
+    String[] words = sentence.split(" ");
+    Double totalWordCount = 0.0;
+    Double totalScore = 0.0;
+    for (String w : words) {
+      String lowerW = w.toLowerCase();
+      // ignore this word if it does not start with a letter
+      if (lowerW.charAt(0) < 'a' || lowerW.charAt(0) > 'z') {
+        continue;
+      }
+
+      if (!wordScores.containsKey(lowerW)) {
+        wordScores.put(lowerW, 0.0);
+      }
+      totalWordCount += 1;
+      totalScore += wordScores.get(lowerW);
+    }
+		return totalScore / totalWordCount;
 	}
 
     /**
@@ -85,7 +104,16 @@ public class Analyzer {
       assert (scores.get("dogs") == 1);
       assert (scores.get("i") == 0);
       assert (scores.get("like") == 2);
-      System.out.println("Tests Passed");
+      System.out.println("calculateWordScores Tests Passed");
+
+
+      scores = new HashMap<>();
+      scores.put("dogs", 1.5);
+      scores.put("are", 0.0);
+      scores.put("cute", 2.0);
+      double score = calculateSentenceScore(scores, "dogs are cute");
+      assert (score == (3.5 / 3));
+      System.out.println("calculateSentenceScore Tests Passed");
     }
 
 }
