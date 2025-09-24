@@ -114,6 +114,31 @@ public class Analyzer {
       double score = calculateSentenceScore(scores, "dogs are cute");
       assert (score == (3.5 / 3));
       System.out.println("calculateSentenceScore Tests Passed");
+
+      if (args.length != 1) {
+        System.out.println("no input file");
+        return;
+      }
+      String inputFile = args[0];
+      sentences = Reader.readFile(inputFile);
+      if (sentences == null) {
+        System.out.println("bad input file");
+        return;
+      }
+      scores = calculateWordScores(sentences);
+      System.out.println(scores);
+      Scanner scanner = new Scanner(System.in);
+      while (true){
+        System.out.println("Enter a sentence: ");
+        String s = scanner.nextLine();
+        if (s.equals("quit")) {
+          break;
+        }
+        score = calculateSentenceScore(scores, s);
+        System.out.println("Score for [" + s + "]: " + score);
+      }
+
+
     }
 
 }
