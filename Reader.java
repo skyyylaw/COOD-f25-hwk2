@@ -1,5 +1,9 @@
 /**
- * @author [YOUR NAME HERE!]
+ * @author [Sky Luo]
+ *
+ * I used hash set for storying the sentence objects because its add operation is O(1)
+ * In contrast, tree set is O(log(n)) for add. Plus, I don't need my sentence objects sorted,
+ * so there is no reason to use a tree set.
  *
  * This class contains a method for reading from a file and creating Sentence objects
  * for a sentiment analysis program.

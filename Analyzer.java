@@ -1,5 +1,14 @@
 /**
- * @author [YOUR NAME HERE!]
+ * @author [Sky Luo]
+ *
+ *
+ * I used three hash maps -- wordTotalScore, wordTotalCount, and wordAvgScore -- to keep track of
+ * the total score, total occurences, and average score of each word. I chose hash map because
+ * what I need is fast look up and updates, and hash map provides O(1) look up and updates. Plus, I don't
+ * need my keys sorted so there is no reason to use tree map.
+ *
+ * In contrast, a tree map would take O(log(n)) for look up and updates.
+ *
  *
  * This class contains the methods used for conducting a simple sentiment analysis.
  */
