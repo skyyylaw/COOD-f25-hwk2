@@ -1,3 +1,10 @@
 2 I like dogs
 1 dogs dogs dogs dogs dogs dogs 'dogs ,dogs .dogs
 -2 I
+-3 out of bound
+-2.1 out
+2.1 out
+2000 out
+1000
+2.1 woohoo
+hello world

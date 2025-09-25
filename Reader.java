@@ -70,7 +70,7 @@ public class Reader {
         }
       }
     } catch (FileNotFoundException e) {
-      System.out.println("scanner");
+      System.out.println("scanner cannot find/open file");
       return null;
     }
 		return set;

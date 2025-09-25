@@ -34,6 +34,9 @@ public class Analyzer {
     if (sentences == null) {
       return null;
     }
+    if (sentences.size() == 0) {
+      return new HashMap<>();
+    }
     HashMap<String, Integer> wordTotalScore = new HashMap<>();
     HashMap<String, Integer> wordTotalCount = new HashMap<>();
     HashMap<String, Double> wordAvgScore = new HashMap<>();
@@ -104,7 +107,7 @@ public class Analyzer {
       totalScore += wordScores.get(lowerW);
     }
 
-    double res = totalScore / totalWordCount;
+    double res = totalWordCount != 0 ? totalScore / totalWordCount : 0;
     memo.put(sentence, res);
 		return res;
 	}
@@ -126,37 +129,45 @@ public class Analyzer {
       assert (scores.get("like") == 2);
       System.out.println("calculateWordScores Tests Passed");
 
-
+//
       scores = new HashMap<>();
       scores.put("dogs", 1.5);
       scores.put("are", 0.0);
       scores.put("cute", 2.0);
       double score = calculateSentenceScore(scores, "dogs are cute");
       assert (score == (3.5 / 3));
+      score = calculateSentenceScore(scores, "dogs dogs dogs");
+      assert (score == 1.5);
+      score = calculateSentenceScore(scores, "dogs dogs dogs dogs hello");
+      assert (score == 6/5);
+      score = calculateSentenceScore(scores, "dogs dogs dogs dogs hello 'ignore .ignore 'ignore");
+      assert (score == 6/5);
+      score = calculateSentenceScore(scores, "dogs dogs dogs? dogs hello");
+      assert (score == 6/5);
       System.out.println("calculateSentenceScore Tests Passed");
 
-      if (args.length != 1) {
-        System.out.println("no input file");
-        return;
-      }
-      String inputFile = args[0];
-      sentences = Reader.readFile(inputFile);
-      if (sentences == null) {
-        System.out.println("bad input file");
-        return;
-      }
-      scores = calculateWordScores(sentences);
-      System.out.println(scores);
-      Scanner scanner = new Scanner(System.in);
-      while (true){
-        System.out.println("Enter a sentence: ");
-        String s = scanner.nextLine();
-        if (s.equals("quit")) {
-          break;
-        }
-        score = calculateSentenceScore(scores, s);
-        System.out.println("Score for [" + s + "]: " + score);
-      }
+//      if (args.length != 1) {
+//        System.out.println("no input file");
+//        return;
+//      }
+//      String inputFile = args[0];
+//      sentences = Reader.readFile(inputFile);
+//      if (sentences == null) {
+//        System.out.println("bad input file");
+//        return;
+//      }
+//      scores = calculateWordScores(sentences);
+//      System.out.println(scores);
+//      Scanner scanner = new Scanner(System.in);
+//      while (true){
+//        System.out.println("Enter a sentence: ");
+//        String s = scanner.nextLine();
+//        if (s.equals("quit")) {
+//          break;
+//        }
+//        score = calculateSentenceScore(scores, s);
+//        System.out.println("Score for [" + s + "]: " + score);
+//      }
 
 
     }
