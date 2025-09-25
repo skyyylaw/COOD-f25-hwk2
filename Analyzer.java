@@ -8,6 +8,8 @@ import java.util.*;
 
 public class Analyzer {
 
+  private static HashMap<String, Double> memo = new HashMap<>();
+
 	/**
 	 * This method calculates the weighted average for each word in all the Sentences.
 	 * This method is case-insensitive and all words should be stored in the Map using
@@ -70,6 +72,12 @@ public class Analyzer {
     if (wordScores == null || sentence == null || wordScores.size() == 0 || sentence.length() == 0) {
       return 0;
     }
+
+    if (memo.containsKey(sentence)) {
+      System.out.println("Using memo!");
+      return memo.get(sentence);
+    }
+
     String[] words = sentence.split(" ");
     Double totalWordCount = 0.0;
     Double totalScore = 0.0;
@@ -86,7 +94,10 @@ public class Analyzer {
       totalWordCount += 1;
       totalScore += wordScores.get(lowerW);
     }
-		return totalScore / totalWordCount;
+
+    double res = totalScore / totalWordCount;
+    memo.put(sentence, res);
+		return res;
 	}
 
     /**
